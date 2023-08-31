@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#define ALPHABET_SIZE 26
+char findMostFrequentChar(const char *str) {
+    int charCount[ALPHABET_SIZE] = {0};
+
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (isalpha(str[i])) {
+            char index = tolower(str[i]) - 'a';
+            charCount[index]++;
+        }
+    }
+
+    int maxCount = 0;
+    char mostFrequentChar = '\0';
+
+    for (int i = 0; i < ALPHABET_SIZE; i++) {
+        if (charCount[i] > maxCount) {
+            maxCount = charCount[i];
+            mostFrequentChar = i + 'a';
+        }
+    }
+
+    return mostFrequentChar;
+}
+
+void frequencySubstitution(char *str, char symbol) {
+    char mostFrequentChar = findMostFrequentChar(str);
+
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (tolower(str[i]) == mostFrequentChar) {
+            str[i] = symbol;
+        }
+    }
+}
+
+int main() {
+    char input[1000];
+    char symbol;
+
+    printf("Enter a string: ");
+    fgets(input, sizeof(input), stdin);
+    input[strcspn(input, "\n")] = '\0';
+
+    printf("Enter a symbol to replace the most frequent character with: ");
+    scanf("%c", &symbol);
+
+    frequencySubstitution(input, symbol);
+
+    printf("Result: %s\n", input);
+
+    return 0;
+}
