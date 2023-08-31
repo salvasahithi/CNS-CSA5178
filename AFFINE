@@ -1,17 +1,34 @@
 #include <stdio.h>
-int gcd(int a, int b) {
-    if (b == 0) {
-        return a;
+
+typedef struct {
+    float x;
+    float y;
+} Point;
+void affineTransform(Point *points, int numPoints, float scaleX, float scaleY, float translateX, float translateY) {
+    for (int i = 0; i < numPoints; i++) {
+        points[i].x = scaleX * points[i].x + translateX;
+        points[i].y = scaleY * points[i].y + translateY;
     }
-    return gcd(b, a % b);
 }
+
 int main() {
-    int a;
-    printf("Allowed values of 'a' for the affine Caesar cipher: ");
-    for (a = 1; a < 26; a++) {
-        if (gcd(a, 26) == 1) {
-            printf("%d ", a);
-        }
+    int numPoints;
+    printf("Enter the number of points: ");
+    scanf("%d", &numPoints);
+
+    Point points[numPoints];
+
+    for (int i = 0; i < numPoints; i++) {
+        printf("Enter x-coordinate for point %d: ", i + 1);
+        scanf("%f", &points[i].x);
+        printf("Enter y-coordinate for point %d: ", i + 1);
+        scanf("%f", &points[i].y);
     }
-    printf("\n");
+    affineTransform(points, numPoints, 2.0, 3.0, 5.0, 5.0);
+    printf("Transformed Points:\n");
+    for (int i = 0; i < numPoints; i++) {
+        printf("Point %d: (%.2f, %.2f)\n", i + 1, points[i].x, points[i].y);
+    }
+
+    return 0;
 }
